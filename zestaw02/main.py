@@ -8,7 +8,9 @@ line = """Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 word = "jakiesslowo"
 
 #zadanie 2_10
+print("-------------------------\nzadanie 2.10:")
 
+print("Liczba wyrazow w line:")
 #sposob 1:
 print(len(line.split(' ')))
 
@@ -17,6 +19,8 @@ print(line.count(' ')+1)
 
 ###################
 #zadanie 2_11
+print("-------------------------\nzadanie 2.11:")
+
 
 for e in word[:-1]:
     print(e,end='_')
@@ -24,9 +28,11 @@ print(word[-1])
 
 ######################
 #zadanie 2_12
+print("-------------------------\nzadanie 2.12:")
+
 pierwsze = ""
 ostatnie = ""
-for wyraz in line.split(' '):
+for wyraz in line.replace("\n","").split(' '):
     pierwsze += wyraz[0]
     ostatnie += wyraz[-1]
 
@@ -34,33 +40,42 @@ print("Wyraz z pierwszych znakow: "+pierwsze+"\nWyraz z ostatnich znakow: "+osta
 
 ###################
 #zadanie 2_13
+print("-------------------------\nzadanie 2.13:")
+
 ile = sum(len(a) for a in line.split(' '))
-print(ile)
+print("Suma dlugosci wyrazow: "+str(ile))
 
 ####################
 #zadanie 2_14
+print("-------------------------\nzadanie 2.14:")
+
 najdluzszy = max(len(a) for a in line.split(' '))
 index = [len(a) for a in line.split(' ')].index(najdluzszy)
 print("Najdzluzszy wyraz to "+line.split(' ')[index]+", a jego dlugosc to: "+str(najdluzszy+1))
 
 ####################
 #zadanie 2_15
+print("-------------------------\nzadanie 2.15:")
+
 L = [a for a in range(2,20,3)]
 napis = ""
 for liczba in L:
     napis += str(liczba)
 
-print(napis)
+print("Ciag cyfr stworzony z liczb z tablicy L: "+napis)
 
 #######################
 #zadanie 2_16
 print("-------------------------\nzadanie 2.16:")
+print("GvR zamienione na Guido van Rossum:")
 print(line.replace("GvR","Guido van Rossum"))
 
 #########################
 #zadanie 2_17
-print("zadanie 2.17:")
+print("-------------------------\nzadanie 2.17:")
+print("Posortowane alfabetycznie:")
 print(sorted(line.split(" ")))
+print("Posortowane po dlugosci:")
 print(sorted(line.split(" "),key=len))
 
 ######################
