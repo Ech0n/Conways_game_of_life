@@ -13,6 +13,9 @@ class Node:
     def __ne__(self, other) -> bool:
         return not self == other
 
+    def __repr__(self):
+        return str(self.data)
+
     def __str__(self):
         return str(self.data)
 
@@ -109,3 +112,33 @@ class SingleList:
             self.head = self.head.next
             del t
         self.tail = None
+    
+    def search(self, data):  # klasy O(n)
+        cur = self.head
+        while cur != None and cur.data != data:
+            cur = cur.next
+        return cur
+    def find_min(self):   # klasy O(n)
+        cur = self.head
+        min = cur
+        while cur != None:
+            if min.data > cur.data:
+                min = cur
+            cur = cur.next
+        return min
+    
+    def find_max(self):  # klasy O(n)
+        cur = self.head
+        max = cur
+        while cur != None:
+            if max.data < cur.data:
+                max = cur
+            cur = cur.next
+        return max
+
+    
+    def reverse(self):   # klasy O(n)
+        new_list = SingleList()
+        while self.head != None:
+            new_list.insert_head(self.remove_head())
+        self = new_list

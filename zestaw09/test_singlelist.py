@@ -10,6 +10,14 @@ class TestSingleList:
         lista.insert_tail(Node(3))
         lista.insert_tail(Node(4))
         return lista
+    @pytest.fixture
+    def RA(self):
+        lista = SingleList()
+        lista.insert_head(Node(1))
+        lista.insert_head(Node(2))
+        lista.insert_head(Node(3))
+        lista.insert_head(Node(4))
+        return lista
 
     @pytest.fixture
     def B(self):
@@ -38,6 +46,35 @@ class TestSingleList:
         lista.insert_tail(Node(2))
         lista.insert_tail(Node(3))
         lista.insert_tail(Node(1))
+        return lista
+        
+    @pytest.fixture
+    def R(self):
+        lista = SingleList()
+        lista.insert_tail(Node(7))
+        lista.insert_tail(Node(9))
+        lista.insert_tail(Node(5))
+        lista.insert_tail(Node(4))
+        lista.insert_tail(Node(2))
+        lista.insert_tail(Node(3))
+        lista.insert_tail(Node(4))
+        lista.insert_tail(Node(11))
+        lista.insert_tail(Node(7))
+        lista.insert_tail(Node(5))
+        return lista
+    @pytest.fixture
+    def RR(self):
+        lista = SingleList()
+        lista.insert_head(Node(7))
+        lista.insert_head(Node(9))
+        lista.insert_head(Node(5))
+        lista.insert_head(Node(4))
+        lista.insert_head(Node(2))
+        lista.insert_head(Node(3))
+        lista.insert_head(Node(4))
+        lista.insert_head(Node(11))
+        lista.insert_head(Node(7))
+        lista.insert_head(Node(5))
         return lista
 
     @pytest.fixture
@@ -93,6 +130,31 @@ class TestSingleList:
         assert D.count() == 0
         assert S.count() == 0
         assert E.count() == 0        
+        assert S.head == None
+        assert S.tail == None
+
+    def test_search(self,D):
+        assert D.search(2) == Node(2)
+        assert D.search(22) == None
+        assert D.search(1).next == Node(2)
+
+    def test_find_min(self,R,A,S,E):
+        assert R.find_min() == Node(2)
+        assert A.find_min() == Node(1)
+        assert S.find_min() == Node(1)
+        assert E.find_min() == None
+ 
+    def test_find_max(self,R,A,S,E):
+        assert R.find_max() == Node(11)
+        assert A.find_max() == Node(4)
+        assert S.find_max() == Node(1)
+        assert E.find_max() == None
+
+    def reverse(self,A,R,RA,RR):
+        A.reverse()
+        R.reverse()
+        assert A == RA
+        assert R == RR
 
     if __name__ == "__main__":
         pytest.main()
