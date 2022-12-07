@@ -98,11 +98,14 @@ class SingleList:
         return node
         
     def join(self, other : "SingleList"):   # klasy O(1)
-        if other.head == None:
+        if other.tail == None:
             return
-        else:
-            self.insert_tail(other.remove_head())
-            self.join(other)
+        self.tail.next = other.head
+        self.tail = other.tail
+        self.length += other.length
+        other.head = None
+        other.tail = None
+        other.length = 0
 
 
     def clear(self):   # czyszczenie listy
