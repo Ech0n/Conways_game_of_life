@@ -67,6 +67,10 @@ class TestSingleList:
         assert S.length == 0
         assert S == E
         assert usuniete.data == 1
+    
+    def test_remove_empty(self,E):
+        with pytest.raises(ValueError):
+            E.remove_tail()
 
     def test_join(self,A,B,C,D,E,S):
         len = A.count() + B.count() + C.count() + S.count()
