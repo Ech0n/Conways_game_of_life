@@ -100,7 +100,10 @@ class SingleList:
     def join(self, other : "SingleList"):   # klasy O(1)
         if other.tail == None:
             return
-        self.tail.next = other.head
+        if self.tail == None:
+            self.head = other.head
+        else:
+            self.tail.next = other.head
         self.tail = other.tail
         self.length += other.length
         other.head = None
