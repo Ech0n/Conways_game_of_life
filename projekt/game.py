@@ -1,65 +1,43 @@
 import pygame
 import sys
 from Board import Board
+from SaveLoadManager import SaveLoadManager
 
-bounds = [0,0,0,0]
-def calculate_future(cells:Board):
-    # futurecells = [[0 for _  in range(newcolls)]for _ in range(newrows)]
-    futurecells = Board(cells.colls,cells.rows)
-    for i in range(cells.rows):
-        for j in range(cells.colls):
-            #Liczenie sadsiadow
-            neighbours = 0
-            for k in range(-1,2):
-                for h in range(-1,2):
-                    if(i+k >= 0 and i+k<cells.rows and j+h >=0 and j+h < cells.colls ): 
-                        if(  cells.cells[i+k][j+h]==1 and not(h==0 and k==0)):
-                            neighbours += 1
-            if(cells.cells[i][j]==1):
-                if neighbours == 3 or neighbours ==2:
-                    futurecells.set_cell(i,j)
+###################
+speedmodifier = 1.0 #standardowa predkosc gry
+speedmodifierchange = 0.2 #tempo zmiany predkosci gry
+border_width = 1 #Grubosc linii pomiedzy komorkanmi
+border_zeroing_threshold = 65 #Moment zanikania granicy dla zwiekszenia czytelnosci
+#########################
 
-            else:
-                if neighbours == 3:
-                    futurecells.set_cell(i,j)
-    futurecells.upScale()
-    # print(futurecells)
-    return futurecells
-                
-
-
-
-
+slmanager = SaveLoadManager()
 pygame.init()
+
+#Tworzenie okna gry
 size = (width,height) = (640,580)
 screen = pygame.display.set_mode(size,pygame.RESIZABLE)
 pygame.display.set_caption("Gra w Zycie")
 
-board_margin = 7
-border_width = 1
-
 font = pygame.font.Font(None, 50)
 start_text = "RUN"
-button_col =  pygame.Color(0,255,255)
+button_col =  pygame.Color(255,255,255)
 runnning = False
-# bounds = [-5,-5,5,5]
-
-def next_generation(cells):
-    pass
-# rows = abs(bounds[1]-bounds[3])
-# colls = abs(bounds[0]-bounds[2])
-# cells = [[0 for _  in range(colls)]for _ in range(rows)]
 
 cells = Board(10,10)
 
 clock = pygame.time.Clock()
 
 while True:
+    #Resetowanie ekranu
     screen.fill(pygame.Color("black"))
+
     size = (screen.get_width(),screen.get_height()-100)
     width, height = size
-    #draw board
     board_size = min(size)
+    if max( cells.rows , cells.colls) > border_zeroing_threshold:
+        border_width = 0
+
+
 
     edge = max(cells.rows,cells.colls)
     cell_size = int(board_size/edge)-border_width
@@ -73,30 +51,70 @@ while True:
             r1 = pygame.Rect(cell_with_border*(j),cell_with_border*(i),cell_size,cell_size)
             col = pygame.Color(244,244,244)
             if(i< cells.rows and j < cells.colls and i >= 0 and j>= 0):
-                # print(i,j, cells.rows,cells.colls,len(cells.cells),len(cells.cells[-1]))
                 if cells.cells[i][j] == 1:
                     col = pygame.Color(22,200,22)
+            else:
+                col = pygame.Color(220,220,220)
+
             pygame.draw.rect(screen,col,r1)
 
-
+    #UI
     text_surf = font.render(start_text, True,button_col)
     text_rect = text_surf.get_rect(center=(width // 2, 540))
     screen.blit(text_surf, text_rect)
+    
+    left_rect = text_surf.get_rect(center=(50, 540))
+    right_rect = text_surf.get_rect(center=(width - 80, 540))
+    left_button = font.render("     <<", True,button_col)
+    right_button = font.render("          >>", True,button_col)
+   
+
     if runnning:
-        cells = calculate_future(cells)
-        clock.tick(2)
+        #Simulating next generation
+        cells = cells.calculate_future()
+        clock.tick(2*speedmodifier)
+    else:
+        left_button = font.render("LOAD", True,button_col)
+        right_button = font.render("SAVE", True,button_col)
+
+    screen.blit(left_button, left_rect)
+    screen.blit(right_button, right_rect)
 
 
-    for event in pygame.event.get():   # pętla po liście zdarzeń (event list)
-        if event.type == pygame.QUIT:   # QUIT Event
-            pygame.quit()   # deaktywacja pygame
+
+    for event in pygame.event.get():  
+        if event.type == pygame.QUIT:  
+            pygame.quit() 
             sys.exit(0)
-        if event.type == pygame.MOUSEBUTTONUP:
+        elif event.type == pygame.VIDEORESIZE:
+            nwidth, nheight = event.size
+            if nwidth < 600:
+                nwidth = 600
+                screen = pygame.display.set_mode((nwidth,nheight), pygame.RESIZABLE)    
+            if nheight < 400:
+                nheight = 400
+                screen = pygame.display.set_mode((nwidth,nheight), pygame.RESIZABLE)
+
+        elif event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
-            if pos[1]>480:
-                runnning = True
-                start_text = "RUNNING"
-                button_col = pygame.Color(255,0,0)
+            if pos[1]>480 :
+                if pos[0] > 150 and pos[0]<width-150:
+                    runnning = True
+                    cells.check_borders()
+                    start_text = "RUNNING"
+                    button_col = pygame.Color(255,0,0)
+                elif pos[0]>width-150:
+                    if runnning:
+                        speedmodifier *= 1.0+speedmodifierchange
+                    else:
+                        slmanager.save(cells)
+                else:
+                    if runnning:
+                        speedmodifier *= speedmodifierchange
+                    else:
+                        loaded = slmanager.load_file()
+                        if(loaded != None):
+                            cells = loaded
             elif not runnning:
                 x = (int)(pos[0]/cell_with_border)
                 y = (int)(pos[1]/cell_with_border)
@@ -105,9 +123,8 @@ while True:
                         cells.cells[y][x] = 0
                     else:
                         cells.set_cell(y,x)
-                else:
-                    pass
-                        # bound_check(x,y)
+
+                    
     clock.tick(60)
 
 
