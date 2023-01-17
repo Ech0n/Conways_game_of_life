@@ -1,13 +1,13 @@
-## Gra w Zycie
-# Z wykorzystaniem pygame
+# Gra w Zycie
+## Z wykorzystaniem pygame
 
-# Uruchamianie:
+### Uruchamianie:
 ```python main.py```
-powyzsze polecenie uruchamia program
+polecenie uruchamiajace program
 
 Niektore parametry jak rozmiar startowy planszy oraz szybkosc rozgrywki mozna dostosowac zmienniajac odpowiednie zmienne na gorze pliku game.py
 
-# Obsluga:
+### Obsluga:
 Program posiada 2 tryby (edytowania i gry).
 W trybie edytowania uzytkownik ma dostepna edytowalna plansze oraz 3 przyciski:
 + run - przechodzi w tryb gry
