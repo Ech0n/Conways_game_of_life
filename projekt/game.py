@@ -45,13 +45,14 @@ while True:
 
     screenrows = height//cell_with_border 
     screencolls = width//cell_with_border + 1
-
+    left_padding = (screencolls - cells.colls)//2
+    top_padding = (screenrows - cells.rows)//2
     for i in range(screenrows):
         for j in range(screencolls):
             r1 = pygame.Rect(cell_with_border*(j),cell_with_border*(i),cell_size,cell_size)
             col = pygame.Color(244,244,244)
-            if(i< cells.rows and j < cells.colls and i >= 0 and j>= 0):
-                if cells.cells[i][j] == 1:
+            if(i-top_padding< cells.rows and j - left_padding< cells.colls and i >= top_padding and j>= left_padding):
+                if cells.cells[i-top_padding][j-left_padding] == 1:
                     col = pygame.Color(22,200,22)
             else:
                 col = pygame.Color(220,220,220)
@@ -118,11 +119,11 @@ while True:
             elif not runnning:
                 x = (int)(pos[0]/cell_with_border)
                 y = (int)(pos[1]/cell_with_border)
-                if(x<cells.colls and y < cells.rows):
-                    if(cells.cells[y][x] == 1):
-                        cells.cells[y][x] = 0
+                if(x-left_padding<cells.colls and y < cells.rows and x >=left_padding and y >= top_padding):
+                    if(cells.cells[y-top_padding][x-left_padding] == 1):
+                        cells.cells[y-top_padding][x-left_padding] = 0
                     else:
-                        cells.set_cell(y,x)
+                        cells.set_cell(y,x-left_padding)
 
                     
     clock.tick(60)
