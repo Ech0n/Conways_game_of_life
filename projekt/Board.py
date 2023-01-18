@@ -46,9 +46,9 @@ class Board:
 
     #Sprawdza czy punkt jest blisko granic
     def bound_check(self,y,x):
-        if x < 2:
+        if x < 1:
             self.toUpsize[0]+=1
-        if y < 2:
+        if y < 1:
             self.toUpsize[1]+=1
         if x >= self.colls-1:
             self.toUpsize[2]+=1
