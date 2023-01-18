@@ -98,7 +98,7 @@ while True:
 
         elif event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
-            if pos[1]>480 :
+            if pos[1]>height :
                 if pos[0] > 150 and pos[0]<width-150:
                     runnning = True
                     cells.check_borders()
