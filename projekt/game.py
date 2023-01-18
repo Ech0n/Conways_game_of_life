@@ -61,11 +61,11 @@ while True:
 
     #UI
     text_surf = font.render(start_text, True,button_col)
-    text_rect = text_surf.get_rect(center=(width // 2, 540))
+    text_rect = text_surf.get_rect(center=(width // 2, height+50))
     screen.blit(text_surf, text_rect)
     
-    left_rect = text_surf.get_rect(center=(50, 540))
-    right_rect = text_surf.get_rect(center=(width - 80, 540))
+    left_rect = text_surf.get_rect(center=(50, height+50))
+    right_rect = text_surf.get_rect(center=(width - 80, height+50))
     left_button = font.render("     <<", True,button_col)
     right_button = font.render("          >>", True,button_col)
    
