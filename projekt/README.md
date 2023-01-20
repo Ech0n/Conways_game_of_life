@@ -20,6 +20,8 @@ Program posiada 2 tryby (edytowania i gry).
   + run - przechodzi w tryb gry
   + save - zapisuje obecna plansze do pliku
   + load - wczytuje plansze z pliku
+  Edytowalna plansza:
+    Po uruchomieniu programu użytkownik widzi plansze w rozmiarze domyślnym. Plansza składa sie z komórek na siatce na które można kliknąć co zmienia ich stan.
   
 ###
 Aby zmienić rozmiar planszy należy wczytać z pliku zapisu plansze określonego rozmiaru (np. 25x25)

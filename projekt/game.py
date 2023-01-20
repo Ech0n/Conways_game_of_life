@@ -37,9 +37,12 @@ while True:
     if max( cells.rows , cells.colls) > border_zeroing_threshold:
         border_width = 0
 
+    edge = 0
+    if(cells.colls/width > cells.rows/height):
+        edge = cells.colls
+    else:
+        edge = cells.rows
 
-
-    edge = max(cells.rows,cells.colls)
     cell_size = int(board_size/edge)-border_width
     cell_with_border = cell_size + border_width
 
@@ -54,8 +57,7 @@ while True:
             if(i-top_padding< cells.rows and j - left_padding< cells.colls and i >= top_padding and j>= left_padding):
                 if cells.cells[i-top_padding][j-left_padding] == 1:
                     col = pygame.Color(22,200,22)
-            else:
-                col = pygame.Color(220,220,220)
+
 
             pygame.draw.rect(screen,col,r1)
 
@@ -119,12 +121,23 @@ while True:
             elif not runnning:
                 x = (int)(pos[0]/cell_with_border)
                 y = (int)(pos[1]/cell_with_border)
-                if(x-left_padding<cells.colls and y < cells.rows and x >=left_padding and y >= top_padding):
-                    if(cells.cells[y-top_padding][x-left_padding] == 1):
-                        cells.cells[y-top_padding][x-left_padding] = 0
-                    else:
-                        cells.set_cell(y,x-left_padding)
+                
+                while(x<left_padding):
+                    cells.shift_right()
+                    left_padding-=1
+                while(y<top_padding):
+                    cells.shift_down()
+                    top_padding-=1
+                while(x-left_padding>=cells.colls):
+                    cells.shift_left()
+                while(y-top_padding >= cells.rows):
+                    cells.shift_up()
 
+                if(cells.cells[y-top_padding][x-left_padding] == 1):
+                    cells.cells[y-top_padding][x-left_padding] = 0
+                else:
+                    cells.set_cell(y-top_padding,x-left_padding)
+                
                     
     clock.tick(60)
 
