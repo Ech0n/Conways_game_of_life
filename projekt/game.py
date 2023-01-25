@@ -6,8 +6,10 @@ from SaveLoadManager import SaveLoadManager
 ###################
 speedmodifier = 1.0 #standardowa predkosc gry
 speedmodifierchange = 0.2 #tempo zmiany predkosci gry
-border_width = 1 #Grubosc linii pomiedzy komorkanmi
+default_border_width = 1 #Grubosc linii pomiedzy komorkanmi
 border_zeroing_threshold = 65 #Moment zanikania granicy dla zwiekszenia czytelnosci
+max_speed = 10
+min_speed = 0.1
 #########################
 
 slmanager = SaveLoadManager()
@@ -24,7 +26,6 @@ button_col =  pygame.Color(255,255,255)
 runnning = False
 
 cells = Board(10,10)
-
 clock = pygame.time.Clock()
 
 while True:
@@ -36,6 +37,8 @@ while True:
     board_size = min(size)
     if max( cells.rows , cells.colls) > border_zeroing_threshold:
         border_width = 0
+    else:
+        border_width = default_border_width
 
     edge = 0
     if(cells.colls/width > cells.rows/height):
@@ -68,7 +71,7 @@ while True:
     
     left_rect = text_surf.get_rect(center=(50, height+50))
     right_rect = text_surf.get_rect(center=(width - 80, height+50))
-    left_button = font.render("     <<", True,button_col)
+    left_button = font.render("      <<", True,button_col)
     right_button = font.render("          >>", True,button_col)
    
 
@@ -76,14 +79,13 @@ while True:
         #Simulating next generation
         cells = cells.calculate_future()
         clock.tick(2*speedmodifier)
+
     else:
         left_button = font.render("LOAD", True,button_col)
         right_button = font.render("SAVE", True,button_col)
 
     screen.blit(left_button, left_rect)
     screen.blit(right_button, right_rect)
-
-
 
     for event in pygame.event.get():  
         if event.type == pygame.QUIT:  
@@ -102,18 +104,20 @@ while True:
             pos = pygame.mouse.get_pos()
             if pos[1]>height :
                 if pos[0] > 150 and pos[0]<width-150:
-                    runnning = True
-                    cells.check_borders()
-                    start_text = "RUNNING"
-                    button_col = pygame.Color(255,0,0)
+                    if not runnning:
+                        runnning = True
+                        cells.check_borders()
+                        start_text = "RUNNING"
+                        button_col = pygame.Color(255,0,0)
+
                 elif pos[0]>width-150:
                     if runnning:
-                        speedmodifier *= 1.0+speedmodifierchange
+                        speedmodifier =min( 1.0+speedmodifierchange,max_speed)
                     else:
                         slmanager.save(cells)
                 else:
-                    if runnning:
-                        speedmodifier *= speedmodifierchange
+                    if runnning:    
+                        speedmodifier =max( speedmodifierchange,min_speed)
                     else:
                         loaded = slmanager.load_file()
                         if(loaded != None):

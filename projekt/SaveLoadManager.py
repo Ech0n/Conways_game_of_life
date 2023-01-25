@@ -18,6 +18,7 @@ class SaveLoadManager:
                 values = line.split()
                 plansza.cells[int(values[0])][int(values[1])] = 1
             return plansza
+            
     def save(self,cells):
         filename = fd.asksaveasfilename(initialdir=self.save_dir, initialfile="unnamed.save",defaultextension=".save")
         if(filename == ""):

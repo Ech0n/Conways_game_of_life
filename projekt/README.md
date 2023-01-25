@@ -27,4 +27,4 @@ Program posiada 2 tryby (edytowania i gry).
 Aby zmienić rozmiar planszy należy wczytać z pliku zapisu plansze określonego rozmiaru (np. 25x25)
 W miarę potrzeb można tez stworzyć własny plik zapisu większej planszy. W tym celu należy utworzyć dowolny plik tekstowy i w dowolnym edytorze umieścić w dwóch pierwszych linijkach wymiary, a pozostałe linijki zostawić puste.
 ### Tryb gry:
-  Program wyświetla symulacje i pasek przypięty do dołu ekranu z napisem "RUNINNG" oznaczającym ze program działa w trybie gry oraz dwoma przyciskami pozwalającymi zmienić tempo gry.
+  Program wyświetla symulacje i pasek przypięty do dołu ekranu z napisem "RUNINNG" oznaczającym ze program działa w trybie gry oraz dwoma przyciskami pozwalającymi zmienić tempo gry. Po wystartowaniu gry nie można wrócić do trybu edycji.
