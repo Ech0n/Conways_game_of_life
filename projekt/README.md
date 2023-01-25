@@ -11,13 +11,15 @@
 Użytkownik może uruchomić program na 3 sposoby:
 Bez wczytywania planszy:
 ```python game.py```
+
 Z wczytywaniem planszy:
-```python game.py <nazwa pliku do wczytania>```
+```python game.py <ścieżka pliku do wczytania>```
+
 Z zapisywaniem i wczytywaniem planszy:
-```python game.py <nazwa pliku do wczytania> <nazwa pliku zapisu>```
+```python game.py <ścieżka pliku do wczytania> <ścieżka pliku zapisu>```
 
 przykład:
-```python game.py saves/25x25.save saves/nowy_zapis.save```
+```python game.py /.saves/25x25.save saves/nowy_zapis.save```
 
 Niektóre parametry jak rozmiar startowy planszy oraz szybkość rozgrywki można dostosować zmieniając odpowiednie zmienne na górze pliku game.py
 
