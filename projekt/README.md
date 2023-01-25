@@ -8,18 +8,23 @@
  Dwie komórki sąsiadują jeżeli odległość pomiędzy nimi jest mniejsza niż 2.
 
 ### Uruchamianie:
+Użytkownik może uruchomić program na 3 sposoby:
+Bez wczytywania planszy:
 ```python game.py```
-polecenie uruchamiające program
+Z wczytywaniem planszy:
+```python game.py <nazwa pliku do wczytania>```
+Z zapisywaniem i wczytywaniem planszy:
+```python game.py <nazwa pliku do wczytania> <nazwa pliku zapisu>```
+
+przykład:
+```python game.py saves/25x25.save saves/nowy_zapis.save```
 
 Niektóre parametry jak rozmiar startowy planszy oraz szybkość rozgrywki można dostosować zmieniając odpowiednie zmienne na górze pliku game.py
 
 ### Obsługa:
 Program posiada 2 tryby (edytowania i gry).
 ### Tryb edytowania:
-  Użytkownik ma dostępna edytowalna plansze oraz 3 przyciski:
-  + run - przechodzi w tryb gry
-  + save - zapisuje obecna plansze do pliku
-  + load - wczytuje plansze z pliku
+  Użytkownik ma dostępna edytowalna plansze oraz przycisk run uruchamiający tryb gry.
   Edytowalna plansza:
     Po uruchomieniu programu użytkownik widzi plansze w rozmiarze domyślnym. Plansza składa sie z komórek na siatce na które można kliknąć co zmienia ich stan.
   

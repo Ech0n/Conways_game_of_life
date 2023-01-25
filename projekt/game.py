@@ -25,7 +25,9 @@ start_text = "RUN"
 button_col =  pygame.Color(255,255,255)
 runnning = False
 
-cells = Board(10,10)
+cells = slmanager.load_file()
+if(cells == None):
+    cells = Board(10,10)
 clock = pygame.time.Clock()
 
 while True:
@@ -68,24 +70,20 @@ while True:
     text_surf = font.render(start_text, True,button_col)
     text_rect = text_surf.get_rect(center=(width // 2, height+50))
     screen.blit(text_surf, text_rect)
-    
-    left_rect = text_surf.get_rect(center=(50, height+50))
-    right_rect = text_surf.get_rect(center=(width - 80, height+50))
-    left_button = font.render("      <<", True,button_col)
-    right_button = font.render("          >>", True,button_col)
-   
+
 
     if runnning:
         #Simulating next generation
         cells = cells.calculate_future()
         clock.tick(2*speedmodifier)
+    
+        left_rect = text_surf.get_rect(center=(50, height+50))
+        right_rect = text_surf.get_rect(center=(width - 80, height+50))
+        left_button = font.render("      <<", True,button_col)
+        right_button = font.render("          >>", True,button_col)
 
-    else:
-        left_button = font.render("LOAD", True,button_col)
-        right_button = font.render("SAVE", True,button_col)
-
-    screen.blit(left_button, left_rect)
-    screen.blit(right_button, right_rect)
+        screen.blit(left_button, left_rect)
+        screen.blit(right_button, right_rect)
 
     for event in pygame.event.get():  
         if event.type == pygame.QUIT:  
@@ -105,6 +103,7 @@ while True:
             if pos[1]>height :
                 if pos[0] > 150 and pos[0]<width-150:
                     if not runnning:
+                        slmanager.save(cells)
                         runnning = True
                         cells.check_borders()
                         start_text = "RUNNING"
@@ -112,16 +111,11 @@ while True:
 
                 elif pos[0]>width-150:
                     if runnning:
-                        speedmodifier =min( 1.0+speedmodifierchange,max_speed)
-                    else:
-                        slmanager.save(cells)
+                        speedmodifier =min( (1.0+speedmodifierchange)*speedmodifier,max_speed)
                 else:
                     if runnning:    
-                        speedmodifier =max( speedmodifierchange,min_speed)
-                    else:
-                        loaded = slmanager.load_file()
-                        if(loaded != None):
-                            cells = loaded
+                        speedmodifier =max( speedmodifierchange*speedmodifier,min_speed)
+
             elif not runnning:
                 x = (int)(pos[0]/cell_with_border)
                 y = (int)(pos[1]/cell_with_border)
