@@ -8,7 +8,7 @@
  Dwie komórki sąsiadują jeżeli odległość pomiędzy nimi jest mniejsza niż 2.
 
 ### Uruchamianie:
-```python main.py```
+```python game.py```
 polecenie uruchamiające program
 
 Niektóre parametry jak rozmiar startowy planszy oraz szybkość rozgrywki można dostosować zmieniając odpowiednie zmienne na górze pliku game.py
